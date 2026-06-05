@@ -48,3 +48,11 @@ Ihr Browser sollte sich nun automatisch öffnen und das Dashboard unter [http://
 * Alle reinen Sensorwerte werden aufbereitet und sofort angehangen.
 * Da Temperatur-Nachrichten keine Flaschen-ID (`bottle`) enthalten, wird in InfluxDB der `dispenser` als Tag zur Trennung verwendet. 
 * Eine spätere Analyse für Termin 3 und 4 kann in Pandas durch ein Group-by-Statement auf die `bottle` Spalte aus der generierten `data.csv` geschehen.
+
+## Rest-API
+
+```bash
+python flask_api.py
+```
+*Im Browser können nun unter [http://127.0.0.1:5000/bottles/latest](http://127.0.0.1:5000/bottles/latest) der letzte gelogte Wert der .csv ausgelesen werden.*
+*unter [http://127.0.0.1:5000/bottles/count](http://127.0.0.1:5000/bottles/count) die Anzahl der gelogten Werte*

@@ -5,3 +5,4 @@ influxdb-client
 plotly
 python-dotenv
 streamlit-autorefresh
+flask
