@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.express as px
 from influxdb_client import InfluxDBClient
 
-# Setup Page
 st.set_page_config(page_title="Learning Factory Dashboard", layout="wide", initial_sidebar_state="collapsed")
 st.title("Learning Factory Live Dashboard")
 
@@ -20,27 +19,23 @@ def get_influx_client():
 client = get_influx_client()
 query_api = client.query_api()
 
-# Autorefresh (approx every 5 seconds)
 try:
     from streamlit_autorefresh import st_autorefresh
     st.sidebar.header("Controls")
     st.sidebar.write("Auto-Refresh jede Sekunde")
     # Refresh every 1000 milliseconds
-    st_autorefresh(interval=1000, limit=None, key="data_refresh")
+    st_autorefresh(interval= 999, limit=None, key="data_refresh")
 except ImportError:
     st.sidebar.header("Controls")
     st.sidebar.warning("Installiere 'streamlit-autorefresh' in der requirements.txt für automatische Updates.")
     if st.sidebar.button("Refresh Data"):
         st.rerun()
 
-# Layout
 col1, col2 = st.columns([1, 2])
 
-# --- Pie Chart: Dispenser Distribution ---
 with col1:
     st.subheader("Bottles per Dispenser")
     
-    # Query to count occurrences of fill_level_grams grouped by dispenser tag
     query_dispenser = f'''
     from(bucket: "{INFLUX_BUCKET}")
       |> range(start: -7d)
@@ -67,7 +62,7 @@ with col1:
                              title="Bottles processed by Dispenser",
                              color='Dispenser',
                              color_discrete_map={'red':'red', 'blue':'blue', 'green':'green'})
-            st.plotly_chart(fig_pie, use_container_width=True)
+            st.plotly_chart(fig_pie, width="content")
         else:
             st.info("No dispenser data available yet.")
     except Exception as e:
@@ -110,7 +105,7 @@ with col2:
             fig_line = px.line(df_temp, x="Time", y="Temperature (°C)", color="Dispenser",
                                title="Dispenser Temperature Over Time", markers=True,
                                color_discrete_map={'red': 'red', 'blue': 'blue', 'green': 'green'})
-            st.plotly_chart(fig_line, use_container_width=True)
+            st.plotly_chart(fig_line, width="stretch")
         else:
             st.info(f"No temperature data available for {timeframe.lower()}.")
     except Exception as e:

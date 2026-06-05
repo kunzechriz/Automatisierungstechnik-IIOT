@@ -18,7 +18,7 @@ class DatabaseHandler:
 
         # InfluxDB Setup
         self.influx_url = "http://localhost:8086"
-        self.influx_token = "my-super-secret-auth-token"
+        self.influx_token = "123"
         self.influx_org = "learning_factory"
         self.influx_bucket = "factory_data"
         
