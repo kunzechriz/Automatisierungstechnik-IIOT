@@ -83,3 +83,35 @@ $+ 0.0005 \cdot fill\_level\_grams\_blue + 0.1000 \cdot vibration\_index\_blue +
 $+ 0.0005 \cdot fill\_level\_grams\_green + 0.1000 \cdot vibration\_index\_green + 0.2000 \cdot temperature\_C\_green - 15.0000$
 
 Die Prognose für das bereitgestellte Datenset wurde in der Datei `reg_Gruppe1.csv` gespeichert.
+
+## Klassifikationsmodell für defekte Flaschen (Aufgabe 12.4)
+
+Zur Vorhersage von defekten Flaschen (`is_cracked`) nach dem Fall ("Drop") wurde ein Klassifikationsmodell in `scikit-learn` trainiert. Als Datengrundlage dienten die Zeitreihen der Drop-Vibration (`drop_oscillation`), welche aus Arrays von je 500 Messpunkten bestehen.
+
+Aufgrund der hohen Klassen-Imbalance (ca. 650 intakte vs. 60 defekte Flaschen) wurde der **F1-Score** als primäre Metrik zur Evaluierung der Modelle herangezogen.
+
+### Ergebnisse
+
+| Genutzte Features | Modell-Typ | F1-Score (Training) | F1-Score (Test) |
+|---|---|---|---|
+| mean() | kNN | 0.1754 | 0.0 |
+| mean() | Log. Regression | 0.0 | 0.0 |
+| mean(), yt-1 | kNN | 0.1111 | 0.0 |
+| mean(), yt-1 | Log. Regression | 0.0 | 0.0 |
+| mean(), std(), max(), min() | kNN | 0.5556 | 0.1429 |
+| mean(), std(), max(), min() | Log. Regression | 0.0 | 0.0 |
+| raw_series (500 pts) | kNN | 0.5152 | 0.375 |
+| raw_series (500 pts) | Log. Regression | 0.8864 | 0.5882 |
+
+### Bestes Modell und Confusion Matrix
+
+Das **Logistische Regressionsmodell**, welches auf der gesamten Zeitreihe (alle 500 Rohwerte) trainiert wurde, lieferte den besten F1-Score.
+
+Die **Confusion Matrix** (ausgewertet auf den Testdaten, n=143) lautet wie folgt:
+
+| | Predicted: 0 (Intakt) | Predicted: 1 (Defekt) |
+|---|---|---|
+| **Actual: 0 (Intakt)** | 131 | 0 |
+| **Actual: 1 (Defekt)** | 7 | 5 |
+
+Das Modell erzeugt auf den Testdaten **keine False Positives** und kann fast die Hälfte der tatsächlichen Brüche korrekt vorhersagen. Eine Visualisierung der Matrix liegt im Verzeichnis als `confusion_matrix.png` bereit.
