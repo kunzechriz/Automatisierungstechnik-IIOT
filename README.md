@@ -76,10 +76,6 @@ Die Sensordaten (Füllstand, Vibration und Temperatur) der drei Dispenser (`red`
 
 Das Modell, welches alle Dispenser-Daten integriert, erreicht einen perfekten MSE von 0.0. Um Overfitting auszuschließen, wurde zusätzlich eine 10-fache Cross-Validation (ShuffleSplit mit 80/20 Random-Shuffle) durchgeführt. Auch hier blieb der MSE über alle Splits hinweg exakt bei 0.0. Dies beweist, dass kein Overfitting vorliegt, sondern das Modell die exakte deterministische mathematische Funktion der Learning Factory Simulation gefunden hat.
 
-Die zugehörige lineare Formel lautet:
-
-$y = 0.0005 \cdot \text{fill\_level\_grams\_red} + 0.1000 \cdot \text{vibration\_index\_red} + 0.2000 \cdot \text{temperature\_C\_red} + 0.0005 \cdot \text{fill\_level\_grams\_blue} + 0.1000 \cdot \text{vibration\_index\_blue} + 0.2000 \cdot \text{temperature\_C\_blue} + 0.0005 \cdot \text{fill\_level\_grams\_green} + 0.1000 \cdot \text{vibration\_index\_green} + 0.2000 \cdot \text{temperature\_C\_green} - 15.0000$
-
 Die Prognose für das bereitgestellte Datenset wurde in der Datei `reg_Gruppe1.csv` gespeichert.
 
 ## Klassifikationsmodell für defekte Flaschen (Aufgabe 12.4)
